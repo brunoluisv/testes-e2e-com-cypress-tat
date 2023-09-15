@@ -7,7 +7,7 @@ Cypress.Commands.add('fillSignupFormAndSubmit', (email, password) => {
 	cy.contains('button', 'Signup').click();
 	cy.get('#confirmationCode').should('be.visible');
 
-	cy.mailosaurGetMessage(Cypress.env('CYPRESS_MAILOSAUR_SERVER_ID'), {
+	cy.mailosaurGetMessage(Cypress.env('MAILOSAUR_SERVER_ID'), {
 		sentTo: email
 	}).then(message => {
 		const confirmationCode = message.html.body.match(/\d{6}/)[0];
@@ -17,8 +17,8 @@ Cypress.Commands.add('fillSignupFormAndSubmit', (email, password) => {
 });
 
 Cypress.Commands.add('guiLogin', (
-	username = Cypress.env('CYPRESS_USER_EMAIL'), 
-	password = Cypress.env('CYPRESS_USER_PASSWORD')
+	username = Cypress.env('USER_EMAIL'), 
+	password = Cypress.env('USER_PASSWORD')
 ) => {
 	cy.intercept('GET', '**/notes').as('getNotes');
 
@@ -30,8 +30,8 @@ Cypress.Commands.add('guiLogin', (
 });
 
 Cypress.Commands.add('sessionLogin', (
-	username = Cypress.env('CYPRESS_USER_EMAIL'), 
-	password = Cypress.env('CYPRESS_USER_PASSWORD')
+	username = Cypress.env('USER_EMAIL'), 
+	password = Cypress.env('USER_PASSWORD')
 ) => {
 	const login = () => cy.guiLogin(username, password);
 	cy.session(username, login);
